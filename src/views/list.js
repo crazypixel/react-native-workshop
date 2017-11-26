@@ -8,7 +8,7 @@ const DATA = [
   { key: '2', title: 'Roast marshmallows over a fire and make s’mores' },
   { key: '3', title: 'Mix up a pitcher of sangria' },
   { key: '4', title: 'Ride a roller coaster' },
-  { key: '5', title: 'Ride a roller coaster' }
+  { key: '5', title: 'Toss a Frisbee' }
 ];
 
 const { width } = Dimensions.get('window');
