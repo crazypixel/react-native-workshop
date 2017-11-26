@@ -1,18 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
+import {StackNavigator} from 'react-navigation';
+
+// VIEWS
 import Welcome from './src/views/welcome';
-import styled from 'styled-components/native';
+import List from './src/views/list';
+import NewItem from './src/views/newItem';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Container>
-        <Welcome />
-      </Container>
-    );
-  }
-}
+const App = StackNavigator({
+  Welcome: { screen: Welcome },
+  List: { screen: List },
+  NewItem: { screen: NewItem }
+}, { headerMode: 'none' });
 
-const Container = styled.View`
-  flex: 1;
-`;
+export default App

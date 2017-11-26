@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const Welcome = () => (
+const Welcome = ({ navigation }) => (
   <Container>
     <Title>Welcome to 500Todo</Title>
-    <Button onPress={() => alert('Woohoo!')}>
+    <Button onPress={() => navigation.navigate('List')}>
       <Label>Get Started</Label>
     </Button>
   </Container>
