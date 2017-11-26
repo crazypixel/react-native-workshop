@@ -26,14 +26,15 @@ const Title = styled.Text`
 
 const Label = styled.Text`
   color: #fff;
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: bold;
 `;
 
 const Button = styled.TouchableOpacity`
   width: 200px;
-  height: 50px;
+  height: 40px;
   margin: 50px;
-  border-radius: 5px;
+  border-radius: 20px;
   border-width: 2px;
   border-color: #fff;
   display: flex;
