@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 const Welcome = () => (
   <Container>
     <Title>Welcome to 500Todo</Title>
-    <Button>
+    <Button onPress={() => alert('Woohoo!')}>
       <Label>Get Started</Label>
     </Button>
   </Container>
@@ -29,7 +29,7 @@ const Label = styled.Text`
   font-size: 20px;
 `;
 
-const Button = styled.View`
+const Button = styled.TouchableOpacity`
   width: 200px;
   height: 50px;
   margin: 50px;
