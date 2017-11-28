@@ -41,7 +41,6 @@ class NewItem extends React.Component {
 
   render() {
     const { focused } = this.state;
-    const { navigation } = this.props;
 
     return (
       <Container>
