@@ -1,15 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { FlatList, Dimensions } from 'react-native';
-
-const DATA = [
-  { key: '0', title: 'See a movie at the drive-in' },
-  { key: '1', title: 'Ride a roller coaster' },
-  { key: '2', title: 'Roast marshmallows over a fire and make s’mores' },
-  { key: '3', title: 'Mix up a pitcher of sangria' },
-  { key: '4', title: 'Ride a roller coaster' },
-  { key: '5', title: 'Toss a Frisbee' }
-];
+import { firebaseAction } from '../redux/actions/firebaseActions';
+import { connect } from 'react-redux';
+import { get } from 'lodash/fp';
+import { toArray } from 'lodash';
 
 const { width } = Dimensions.get('window');
 
@@ -20,29 +15,51 @@ const getColor = () => {
 };
 
 const rowRenderer = ({ item }) => {
-  const { title } = item;
+  const { label } = item;
 
   return (
     <Row width={width}>
       <Circle background={getColor()} />
-      <Title>{title}</Title>
+      <Title>{label}</Title>
     </Row>
   );
 };
 
-const List = ({ navigation }) => (
-  <Container>
-    <FlatList
-      data={DATA}
-      renderItem={rowRenderer}
-    />
-    <Button onPress={() => navigation.navigate('NewItem')}>
-      <Plus>+</Plus>
-    </Button>
-  </Container>
-);
+class List extends React.Component {
+  componentWillMount() {
+    const meta = {
+      method: 'SUBSCRIBE',
+      path: '/items'
+    };
 
-export default List;
+    this.props.firebaseAction(null, meta);
+  }
+
+  render() {
+    const { navigation, items } = this.props;
+    const data = toArray(items);
+
+    return (
+      <Container>
+        <FlatList
+          data={data}
+          renderItem={rowRenderer}
+        />
+        <Button onPress={() => navigation.navigate('NewItem')}>
+          <Plus>+</Plus>
+        </Button>
+      </Container>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  items: get('items', state.firebase)
+});
+
+export default connect(mapStateToProps, {
+  firebaseAction
+})(List);
 
 const Container = styled.View`
   background-color: #222;

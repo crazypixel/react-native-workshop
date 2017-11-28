@@ -1,17 +1,42 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { TextInput } from 'react-native';
+import { connect } from 'react-redux';
+import { firebaseAction } from '../redux/actions/firebaseActions';
 
-export default class NewItem extends React.Component {
+class NewItem extends React.Component {
   state = {
     text: '',
     focused: false
   };
 
+  uuid() {
+    const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+
+    return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+  }
+
   toggleFocus = () => {
     const { focused } = this.state;
 
     this.setState({ focused: !focused });
+  };
+
+  handleClick = () => {
+    const { navigation, firebaseAction } = this.props;
+    const key = this.uuid();
+    const data = {
+      key,
+      label: this.state.text
+    };
+    const meta = {
+      method: 'SET',
+      path: `/items/${key}`
+    };
+
+    firebaseAction(data, meta);
+
+    navigation.navigate('List');
   };
 
   render() {
@@ -30,13 +55,17 @@ export default class NewItem extends React.Component {
           focused={focused}
         />
 
-        <Button onPress={() => navigation.navigate('List')}>
+        <Button onPress={this.handleClick}>
           <Label>Add Item</Label>
         </Button>
       </Container>
     );
   }
 }
+
+export default connect(undefined, {
+  firebaseAction
+})(NewItem);
 
 const Container = styled.View`
   background-color: #222;

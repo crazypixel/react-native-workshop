@@ -1,6 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import {StackNavigator} from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
+import fbManager from './src/firebase/fbManager';
 
 // VIEWS
 import Welcome from './src/views/welcome';
@@ -13,4 +16,25 @@ const App = StackNavigator({
   NewItem: { screen: NewItem }
 }, { headerMode: 'none' });
 
-export default App
+export default class EnhancedApp extends React.Component {
+  componentWillMount() {
+    const config = {
+      apiKey: '',
+      authDomain: '',
+      databaseURL: '',
+      projectId: '',
+      storageBucket: '',
+      messagingSenderId: ''
+    };
+
+    fbManager.init(config, store);
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+  }
+}
